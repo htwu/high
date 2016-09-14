@@ -10,6 +10,7 @@ Resources at your disposal:
  - Google - feel free to use it, any dev who claims not to use stack overflow is a liar or a goose
  - mockdata and a scaffold dataloaded handler
 */
+'use strict';
 
 function onDataLoaded(response){
 	var responseObj = JSON.parse(response);
