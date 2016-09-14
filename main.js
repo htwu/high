@@ -73,47 +73,6 @@ function getPeriodExpenseFigures(monthDataItem) {
   return  monthDataItem.Series[1].Value;
 }
 
-/*
-Render a highCharts basic line chart at a dom element
-This is an example data object. For more info check out: http://www.highcharts.com/docs/chart-and-series-types/line-chart
-var data = {
-  title: {
-    text: 'Cashflow for {0}',
-    x: -20 //center
-  },
-  subtitle: {
-    text: '{0} to {1}',
-    x: -20
-  },
-  xAxis: {
-    categories: []
-  },
-  yAxis: {
-    title: {
-      text: 'Currency ({0})'
-    },
-    plotLines: [{
-      value: 0,
-      width: 1,
-      color: '#808080'
-    }]
-  },
-  tooltip: {
-    valueSuffix: ''
-  },
-  legend: {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'middle',
-    borderWidth: 0
-  },
-  series: [{
-    name: '',
-    data: [25, 0, -500]
-  }]
-};
-*/
-
 function createChart(data, target){
 	$(target).highcharts(data);
 }
