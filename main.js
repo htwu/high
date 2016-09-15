@@ -12,6 +12,19 @@ Resources at your disposal:
 */
 'use strict';
 
+// Handy polyfill for formatting strings
+// e.g. "Hiya {0} {1}".format("odd", "chap"); // "Hiya odd chap"
+var formatString = function (str) {
+  var reg;
+  var values = Array.prototype.slice.call(arguments, 1);
+  var i;
+  for (i = 0; i < values.length; i++) {
+    reg = new RegExp("\\{" + i + "\\}", "gm");
+    str = str.replace(reg, values[i]);
+  }
+  return str;
+}
+
 var getPeriodName = function (monthDataItem) {
   return monthDataItem.Label;
 }
@@ -40,7 +53,7 @@ function onDataLoaded(response) {
   var responseObj = JSON.parse(response);
   var data = {};
   data.title = {
-    text: 'Revenue and Expenses for {0}'.format(responseObj["OrgName"]),
+    text: formatString('Revenue and Expenses for {0}', responseObj["OrgName"]),
     x: -20 //center
   }
   data.subtitle = {
@@ -52,7 +65,7 @@ function onDataLoaded(response) {
   }
   data.yAxis = {
     title: {
-      text: 'Currency ({0})'.format(responseObj["Currency"])
+      text: formatString('Currency ({0})', responseObj["Currency"])
     }
   }
   data.tooltip = {
@@ -83,13 +96,3 @@ $(function () {
   onDataLoaded(getMockData());
 });
 
-// Handy polyfill for formatting strings
-// e.g. "Hiya {0} {1}".format("odd", "chap"); // "Hiya odd chap"
-String.prototype.format = function () {
-  var str = this;
-  for (var i = 0; i < arguments.length; i++) {
-    var reg = new RegExp("\\{" + i + "\\}", "gm");
-    str = str.replace(reg, arguments[i]);
-  }
-  return str;
-}
