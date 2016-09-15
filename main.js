@@ -79,7 +79,7 @@ Resources at your disposal:
         name: 'Expenses',
         color: '#AA0000',
         data: responseObj.Cashflow.map(function getPeriodExpenseFigures(monthDataItem) {
-          if (monthDataItem.Series[1] === undefined) {
+          if (!monthDataItem.Series[1]) {
             return 0;
           }
           return monthDataItem.Series[1].Value;
