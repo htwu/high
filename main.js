@@ -29,10 +29,7 @@ var createChart = function (data, target) {
   $(target).highcharts(data);
 }
 
-
-function onDataLoaded(response) {
-  var responseObj = JSON.parse(response);
-  var data = {};
+var buildTitles = function (data, responseObj) {
   data.title = {
     text: formatString('Revenue and Expenses for {0}', responseObj["OrgName"]),
     x: -20 //center
@@ -41,6 +38,9 @@ function onDataLoaded(response) {
     text: '',
     x: -20
   }
+}
+
+var buildAxises = function (data, responseObj) {
   data.xAxis = {
     categories: responseObj.Cashflow.map(function getPeriodName(monthDataItem) {
       return monthDataItem.Label;
@@ -51,6 +51,9 @@ function onDataLoaded(response) {
       text: formatString('Currency ({0})', responseObj["Currency"])
     }
   }
+}
+
+var buildLegneds = function (data, responseObj) {
   data.tooltip = {
     valueSuffix: ''
   }
@@ -60,6 +63,9 @@ function onDataLoaded(response) {
     verticalAlign: 'middle',
     borderWidth: 0
   }
+}
+
+var buildSerieses = function (data, responseObj) {
   data.series = [{
     name: 'Revenue',
     color: '#00AA00',
@@ -76,7 +82,20 @@ function onDataLoaded(response) {
         }
         return monthDataItem.Series[1].Value;
       })
-    }]
+    }];
+}
+
+function onDataLoaded(response) {
+  var responseObj = JSON.parse(response);
+  var data = {};
+
+  buildTitles(data, responseObj);
+
+  buildAxises(data, responseObj);
+
+  buildLegneds(data, responseObj);
+
+  buildSerieses(data, responseObj);
 
   $('#container').highcharts(data);
 }
