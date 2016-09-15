@@ -85,7 +85,7 @@ var buildSerieses = function (data, responseObj) {
     }];
 }
 
-function onDataLoaded(response) {
+var buildCharData = function(response){
   var responseObj = JSON.parse(response);
   var data = {};
 
@@ -99,10 +99,14 @@ function onDataLoaded(response) {
   return data;
 }
 
+function onDataLoaded(response) {
+  var data = buildCharData(response);
+  createChart(data, '#container');
+}
+
 
 $(function () {
   var data = getMockData();
-  data = onDataLoaded(data);
-  createChart(data, '#container');
+  onDataLoaded(data);
 });
 
