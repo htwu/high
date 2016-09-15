@@ -103,6 +103,6 @@ function onDataLoaded(response) {
 $(function () {
   var data = getMockData();
   data = onDataLoaded(data);
-  $('#container').highcharts(data);
+  createChart(data, '#container');
 });
 
