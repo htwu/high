@@ -1,6 +1,9 @@
+
+'use strict';
+
 /* Mocked Ajax response with data for rendering the chart. This is what the API returns so you have to work with this data structure */
-function getMockData(){
-	return JSON.stringify({
+function getMockData() {
+  return JSON.stringify({
     "OrgName": "Walt\'s Meth Lab",
     "Currency": "USD",
     "Cashflow": [
@@ -28,8 +31,8 @@ function getMockData(){
             "Type": "Expenses",
             "Value": 8585
           },
-					{
-          	"Type": "Projected",
+          {
+            "Type": "Projected",
             "Value": 8585
           }
         ]
@@ -81,7 +84,7 @@ function getMockData(){
             "Value": 587
           },
           {
-          	"Type": "Projected",
+            "Type": "Projected",
             "Value": 2500
           }
         ]
@@ -89,4 +92,3 @@ function getMockData(){
     ]
   });
 }
-

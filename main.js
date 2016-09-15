@@ -12,27 +12,51 @@ Resources at your disposal:
 */
 'use strict';
 
-function onDataLoaded(response){
-	var responseObj = JSON.parse(response);
-	var data = {};
+var getPeriodName = function (monthDataItem) {
+  return monthDataItem.Label;
+}
+
+var getPeriodRevenueFigures = function (monthDataItem) {
+  //if (monthDataItem.Series[0] === undefined) {
+  //	console.log("Missing data");
+  //}
+  return monthDataItem.Series[0].Value;
+}
+
+var getPeriodExpenseFigures = function (monthDataItem) {
+  if (monthDataItem.Series[1] === undefined) {
+    //console.log("Missing data");
+    return 0;
+  }
+  return monthDataItem.Series[1].Value;
+}
+
+var createChart = function (data, target) {
+  $(target).highcharts(data);
+}
+
+
+function onDataLoaded(response) {
+  var responseObj = JSON.parse(response);
+  var data = {};
   data.title = {
-  	text: 'Revenue and Expenses for {0}'.format(responseObj["OrgName"]),
+    text: 'Revenue and Expenses for {0}'.format(responseObj["OrgName"]),
     x: -20 //center
   }
   data.subtitle = {
-  	text: '',
+    text: '',
     x: -20
   }
   data.xAxis = {
-  	categories: responseObj.Cashflow.map(getPeriodName)
+    categories: responseObj.Cashflow.map(getPeriodName)
   }
   data.yAxis = {
-  	title: {
+    title: {
       text: 'Currency ({0})'.format(responseObj["Currency"])
     }
   }
   data.tooltip = {
-  	valueSuffix: ''
+    valueSuffix: ''
   }
   data.legend = {
     layout: 'vertical',
@@ -44,51 +68,27 @@ function onDataLoaded(response){
     name: 'Revenue',
     color: '#00AA00',
     data: responseObj.Cashflow.map(getPeriodRevenueFigures)
-  }, 
-  {
-    name: 'Expenses',
-    color: '#AA0000',
-    data: responseObj.Cashflow.map(getPeriodExpenseFigures)
-  }]
-  
+  },
+    {
+      name: 'Expenses',
+      color: '#AA0000',
+      data: responseObj.Cashflow.map(getPeriodExpenseFigures)
+    }]
+
   $('#container').highcharts(data);
 }
 
-function getPeriodName(monthDataItem) {
-	return monthDataItem.Label;
-}
-
-function getPeriodRevenueFigures(monthDataItem){
-	//if (monthDataItem.Series[0] === undefined) {
-  //	console.log("Missing data");
-  //}
-  return monthDataItem.Series[0].Value;
-}
-
-function getPeriodExpenseFigures(monthDataItem) {
-	if (monthDataItem.Series[1] === undefined) {
-  	//console.log("Missing data");
-    return 0;
-  }
-  return  monthDataItem.Series[1].Value;
-}
-
-function createChart(data, target){
-	$(target).highcharts(data);
-}
-
-
 
 $(function () {
-	onDataLoaded(getMockData());
+  onDataLoaded(getMockData());
 });
 
 // Handy polyfill for formatting strings
 // e.g. "Hiya {0} {1}".format("odd", "chap"); // "Hiya odd chap"
-String.prototype.format = function() {
+String.prototype.format = function () {
   var str = this;
-  for (var i = 0; i < arguments.length; i++) {       
-    var reg = new RegExp("\\{" + i + "\\}", "gm");             
+  for (var i = 0; i < arguments.length; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
     str = str.replace(reg, arguments[i]);
   }
   return str;
