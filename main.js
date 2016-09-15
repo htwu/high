@@ -25,21 +25,6 @@ var formatString = function (str) {
   return str;
 }
 
-var getPeriodName = function (monthDataItem) {
-  return monthDataItem.Label;
-}
-
-var getPeriodRevenueFigures = function (monthDataItem) {
-  return monthDataItem.Series[0].Value;
-}
-
-var getPeriodExpenseFigures = function (monthDataItem) {
-  if (monthDataItem.Series[1] === undefined) {
-    return 0;
-  }
-  return monthDataItem.Series[1].Value;
-}
-
 var createChart = function (data, target) {
   $(target).highcharts(data);
 }
@@ -57,7 +42,9 @@ function onDataLoaded(response) {
     x: -20
   }
   data.xAxis = {
-    categories: responseObj.Cashflow.map(getPeriodName)
+    categories: responseObj.Cashflow.map(function getPeriodName(monthDataItem) {
+      return monthDataItem.Label;
+    })
   }
   data.yAxis = {
     title: {
@@ -76,12 +63,19 @@ function onDataLoaded(response) {
   data.series = [{
     name: 'Revenue',
     color: '#00AA00',
-    data: responseObj.Cashflow.map(getPeriodRevenueFigures)
+    data: responseObj.Cashflow.map(function getPeriodRevenueFigures(monthDataItem) {
+      return monthDataItem.Series[0].Value;
+    })
   },
     {
       name: 'Expenses',
       color: '#AA0000',
-      data: responseObj.Cashflow.map(getPeriodExpenseFigures)
+      data: responseObj.Cashflow.map(function getPeriodExpenseFigures(monthDataItem) {
+        if (monthDataItem.Series[1] === undefined) {
+          return 0;
+        }
+        return monthDataItem.Series[1].Value;
+      })
     }]
 
   $('#container').highcharts(data);
@@ -89,6 +83,7 @@ function onDataLoaded(response) {
 
 
 $(function () {
-  onDataLoaded(getMockData());
+  var data = getMockData();
+  onDataLoaded(data);
 });
 
