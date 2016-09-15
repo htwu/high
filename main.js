@@ -30,15 +30,11 @@ var getPeriodName = function (monthDataItem) {
 }
 
 var getPeriodRevenueFigures = function (monthDataItem) {
-  //if (monthDataItem.Series[0] === undefined) {
-  //	console.log("Missing data");
-  //}
   return monthDataItem.Series[0].Value;
 }
 
 var getPeriodExpenseFigures = function (monthDataItem) {
   if (monthDataItem.Series[1] === undefined) {
-    //console.log("Missing data");
     return 0;
   }
   return monthDataItem.Series[1].Value;
