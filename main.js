@@ -15,13 +15,13 @@ Resources at your disposal:
   'use strict';
 
   // Handy polyfill for formatting strings
-  // e.g. "Hiya {0} {1}".format("odd", "chap"); // "Hiya odd chap"
+  // e.g. 'Hiya {0} {1}'.format('odd', 'chap'); // 'Hiya odd chap'
   var formatString = function (str) {
     var reg;
     var values = Array.prototype.slice.call(arguments, 1);
     var i;
     for (i = 0; i < values.length; i++) {
-      reg = new RegExp("\\{" + i + "\\}", "gm");
+      reg = new RegExp('\\{' + i + '\\}', 'gm');
       str = str.replace(reg, values[i]);
     }
     return str;
@@ -33,7 +33,7 @@ Resources at your disposal:
 
   var buildTitles = function (data, responseObj) {
     data.title = {
-      text: formatString('Revenue and Expenses for {0}', responseObj["OrgName"]),
+      text: formatString('Revenue and Expenses for {0}', responseObj['OrgName']),
       x: -20 //center
     }
     data.subtitle = {
@@ -50,7 +50,7 @@ Resources at your disposal:
     }
     data.yAxis = {
       title: {
-        text: formatString('Currency ({0})', responseObj["Currency"])
+        text: formatString('Currency ({0})', responseObj['Currency'])
       }
     }
   }
