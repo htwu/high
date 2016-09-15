@@ -96,13 +96,13 @@ function onDataLoaded(response) {
   buildLegneds(data, responseObj);
 
   buildSerieses(data, responseObj);
-
-  $('#container').highcharts(data);
+  return data;
 }
 
 
 $(function () {
   var data = getMockData();
-  onDataLoaded(data);
+  data = onDataLoaded(data);
+  $('#container').highcharts(data);
 });
 
